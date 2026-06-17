@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Camera Object Recognition</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="stage" aria-label="Camera object recognition">
+        <div class="camera-frame">
+          <video id="camera" playsinline muted></video>
+          <canvas id="overlay"></canvas>
+          <div id="emptyState" class="empty-state">
+            <div class="lens-mark" aria-hidden="true"></div>
+            <h1>Object Recognition</h1>
+            <p>Start the camera to detect everyday objects in real time.</p>
+          </div>
+          <div id="toast" class="toast" role="status" aria-live="polite">Ready</div>
+        </div>
+      </section>
+
+      <aside class="panel" aria-label="Recognition controls">
+        <header class="brand-row">
+          <div>
+            <p class="eyebrow">Live camera AI</p>
+            <h2>Detect, count, capture</h2>
+          </div>
+          <span id="modelStatus" class="status-pill">Model idle</span>
+        </header>
+
+        <div class="actions">
+          <button id="startButton" class="primary-button" type="button">
+            <span aria-hidden="true">&gt;</span>
+            Start camera
+          </button>
+          <button id="stopButton" class="icon-button" type="button" aria-label="Stop camera" title="Stop camera" disabled>Stop</button>
+          <button id="captureButton" class="icon-button" type="button" aria-label="Capture frame" title="Capture frame" disabled>Shot</button>
+        </div>
+
+        <div class="control-block">
+          <label for="confidenceRange">
+            Confidence
+            <output id="confidenceValue">50%</output>
+          </label>
+          <input id="confidenceRange" type="range" min="20" max="90" value="50">
+        </div>
+
+        <div class="switch-row">
+          <label>
+            <input id="speakToggle" type="checkbox">
+            Speak new detections
+          </label>
+          <label>
+            <input id="mirrorToggle" type="checkbox" checked>
+            Mirror camera
+          </label>
+        </div>
+
+        <section class="stats-grid" aria-label="Detection summary">
+          <div>
+            <span id="fpsValue">0</span>
+            <small>FPS</small>
+          </div>
+          <div>
+            <span id="objectCount">0</span>
+            <small>Objects</small>
+          </div>
+          <div>
+            <span id="topObject">None</span>
+            <small>Top match</small>
+          </div>
+        </section>
+
+        <section class="detections" aria-label="Current detections">
+          <div class="section-head">
+            <h3>Recognized now</h3>
+          </div>
+          <ul id="detectionList">
+            <li class="muted">No objects detected yet.</li>
+          </ul>
+        </section>
+
+        <section class="captures" aria-label="Captured frames">
+          <div class="section-head">
+            <h3>Snapshots</h3>
+            <button id="clearButton" type="button">Clear <span id="captureCount">0</span></button>
+          </div>
+          <div id="captureStrip" class="capture-strip"></div>
+        </section>
+      </aside>
+    </main>
+  </body>
+</html>
